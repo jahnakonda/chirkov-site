@@ -103,11 +103,7 @@
   btn.addEventListener("click", function () {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
-  /* МАКС: ссылка профиля ещё не прислана — кнопка-заглушка не делает лишнего */
-  var max = document.querySelector(".fab-max");
-  if (max && max.getAttribute("href") === "#") {
-    max.addEventListener("click", function (ev) { ev.preventDefault(); });
-  }
+  /* МАКС — обычная ссылка на профиль (https://max.ru/...), JS-обработчик не нужен */
 })();
 /* ---------- 4. Подсветка активного раздела в меню (главная, по прокрутке) ---------- */
 (function () {
