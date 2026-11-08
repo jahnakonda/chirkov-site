@@ -1,10 +1,9 @@
 /* ============================================================
    Чирков А.Б. — интерактив сайта
    1) появление блоков при прокрутке (IntersectionObserver)
-   2) калькулятор ориентировочной стоимости
-   3) плавающие кнопки: связь (МАКС/WhatsApp, чистые ссылки) и «наверх»
-   4) год в футере
-   5) форма заявки через mailto (без бэкенда, честная механика)
+   2) плавающие кнопки: связь (МАКС/WhatsApp, чистые ссылки) и «наверх»
+   3) год в футере
+   4) форма заявки — отправка в Telegram и WhatsApp (без бэкенда)
    ============================================================ */
 
 "use strict";
@@ -27,73 +26,7 @@
   els.forEach(function (el) { io.observe(el); });
 })();
 
-/* ---------- 2. Калькулятор стоимости ----------
-   Ставки — ОЦЕНОЧНЫЕ (рыночные ориентиры, согласовать с заказчиком).
-   Хранятся в объекте RATES — чтобы владелец менял их в одном месте. */
-(function () {
-  var RATES = {
-    "press":   { name: "Пресс-релиз", unit: "материал", base: 8000, per: "unit", min: 8000 },
-    "article": { name: "Статья / журналистский материал", unit: "1000 знаков", base: 60, per: "kchars", min: 6000 },
-    "site":    { name: "Тексты для сайта", unit: "1000 знаков", base: 70, per: "kchars", min: 7000 },
-    "edit":    { name: "Литературная редактура / корректура", unit: "1000 знаков", base: 30, per: "kchars", min: 3000 },
-    "trans":   { name: "Перевод (английский)", unit: "страница (1800 знаков)", base: 350, per: "page", min: 3500 }
-  };
-  var URGENT_K = 1.5; // коэффициент срочности
-
-  var sel = document.getElementById("calc-type");
-  if (!sel) return;
-  var vol = document.getElementById("calc-vol");
-  var per = document.getElementById("calc-per");
-  var urgent = document.getElementById("calc-urgent");
-  var sum = document.getElementById("calc-sum");
-  var hint = document.getElementById("calc-hint");
-  var btnOrder = document.getElementById("calc-order");
-
-  function fmt(n) {
-    return n.toLocaleString("ru-RU") + " ₽";
-  }
-
-  function recalc() {
-    var r = RATES[sel.value];
-    if (!r) { sum.textContent = "—"; hint.textContent = ""; return; }
-    var n = Math.max(1, parseInt(vol.value, 10) || 0);
-    var raw = n * r.base;                 // сколько выходит по ставке
-    var price = Math.max(r.min, raw);     // но не ниже минимума услуги
-    if (urgent.checked) price *= URGENT_K;
-    sum.textContent = "≈ " + fmt(price);
-    hint.textContent = r.name + " · " + n + " × " + r.unit + " × " + fmt(r.base) +
-      " = " + fmt(raw) +
-      (raw < r.min ? " — меньше минимума " + fmt(r.min) : "") +
-      (urgent.checked ? " · срочность ×" + URGENT_K : "");
-  }
-
-  sel.addEventListener("change", function () {
-    var r = RATES[sel.value];
-    if (r) {
-      var def = { "unit": 1, "kchars": 20, "page": 10 }[r.per];
-      vol.value = def;
-      per.value = r.unit; // подпись единицы объёма тоже меняется
-    }
-    recalc();
-  });
-  vol.addEventListener("input", recalc);
-  urgent.addEventListener("change", recalc);
-  recalc();
-
-  /* «Оставить заявку с этим расчётом» — подставляем расчёт в форму контактов */
-  if (btnOrder) {
-    btnOrder.addEventListener("click", function () {
-      var target = document.getElementById("calc-comment");
-      if (target) {
-        target.value = "Ориентировочный расчёт: " + hint.textContent.replace(" · минимум", ", мин.") +
-          " — " + sum.textContent;
-      }
-      document.getElementById("kontakty").scrollIntoView({ behavior: "smooth" });
-    });
-  }
-})();
-
-/* ---------- 3. Плавающие кнопки: «наверх» (связь — чистые ссылки, JS не нужен) ---------- */
+/* ---------- 2. Плавающие кнопки: «наверх» (связь — чистые ссылки, JS не нужен) ---------- */
 (function () {
   var btn = document.getElementById("fab-top");
   if (!btn) return;
@@ -105,7 +38,7 @@
   });
   /* МАКС — обычная ссылка на профиль (https://max.ru/...), JS-обработчик не нужен */
 })();
-/* ---------- 4. Подсветка активного раздела в меню (главная, по прокрутке) ---------- */
+/* ---------- 3. Подсветка активного раздела в меню (главная, по прокрутке) ---------- */
 (function () {
   var links = Array.prototype.slice.call(
     document.querySelectorAll(".topbar .nav a[href*='#']"));
@@ -140,34 +73,44 @@
   })();
 })();
 
-/* ---------- 5. Год в футере ---------- */
+/* ---------- 4. Год в футере ---------- */
 (function () {
   var y = document.getElementById("year");
   if (y) y.textContent = String(new Date().getFullYear());
 })();
 
-/* ---------- 6. Форма заявки — mailto ----------
-   Форма не имитирует отправку: без бэкенда она честно собирает
-   письмо в почтовом клиенте пользователя. */
+/* ---------- 5. Форма заявки — Telegram и WhatsApp ----------
+   Форма не имитирует отправку: без бэкенда она собирает сообщение
+   из полей формы и открывает выбранный мессенджер с готовым текстом.
+   Контакты Андрея Чиркова для заявки (править тут, в одном месте): */
 (function () {
+  var TG = "https://t.me/+79683721056";   // по номеру; когда появится username — заменить на t.me/<username>
+  var WA = "https://wa.me/79683721056";
+
   var form = document.getElementById("order-form");
   if (!form) return;
-  form.addEventListener("submit", function (ev) {
-    ev.preventDefault();
+
+  function buildMessage() {
     var name = form.elements["name"].value.trim();
     var contact = form.elements["contact"].value.trim();
     var task = form.elements["task"] ? form.elements["task"].value : "";
     var comment = (form.elements["comment"] || {}).value || "";
-    var to = "chirkov_an@mail.ru";
-    var subject = "Заявка с сайта · " + (name || "без имени");
-    var body = "Имя: " + name +
-      "\nКонтакт: " + contact +
-      (task ? "\nТип задачи: " + task : "") +
-      "\n\n" + comment;
-    var href = "mailto:" + to + "?subject=" + encodeURIComponent(subject) +
-      "&body=" + encodeURIComponent(body);
-    window.location.href = href;
-    var note = document.getElementById("form-done");
-    if (note) note.hidden = false;
+    var parts = ["Заявка с сайта Андрея Чиркова"];
+    if (name) parts.push("Имя: " + name);
+    if (contact) parts.push("Контакт для связи: " + contact);
+    if (task) parts.push("Тип задачи: " + task);
+    if (comment) parts.push(comment);
+    return parts.join("\n");
+  }
+
+  var buttons = form.querySelectorAll("button[data-via]");
+  buttons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      // обязательные поля проверяем сами, т.к. кнопки — type="button"
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      var href = btn.dataset.via === "telegram" ? TG : WA;
+      window.open(href + "?text=" + encodeURIComponent(buildMessage()),
+        "_blank", "noopener");
+    });
   });
 })();

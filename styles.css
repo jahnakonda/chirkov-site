@@ -280,6 +280,10 @@ p { margin: 0 0 1em; }
 .form textarea { min-height: 110px; resize: vertical; }
 .form .btn--form { background: #EDEAE3; color: #171613; }
 .form .btn--form:hover { background: #fff; }
+
+/* две кнопки отправки: Telegram / WhatsApp */
+.form-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.form-actions .btn--form { flex: 1 1 220px; justify-content: center; }
 .form-note { font-size: 13px; color: #A8A399; }
 
 /* ---------- Футер ---------- */
@@ -384,3 +388,14 @@ p { margin: 0 0 1em; }
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
 }
+/* ======= Ресурсы: где читать работы ======= */
+.res-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.res-row a {
+  display: inline-flex; align-items: baseline; gap: 10px;
+  padding: 13px 20px; border: 1px solid var(--line); border-radius: 999px;
+  background: var(--surface); text-decoration: none; color: var(--ink);
+  font-weight: 600; transition: border-color var(--ease), transform var(--ease);
+}
+.res-row a:hover { border-color: var(--accent-deep); transform: translateY(-2px); }
+.res-domain { font-weight: 400; font-size: 14px; color: var(--muted); }
+@media (max-width: 560px) { .res-row a { width: 100%; justify-content: space-between; } }

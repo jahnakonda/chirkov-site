@@ -74,7 +74,6 @@
       <a href="#ob">О специалисте</a>
       <a href="#uslugi">Услуги</a>
       <a href="portfolio/index.html">Портфолио</a>
-      <a href="#ceny">Цены</a>
       <a href="#faq">FAQ</a>
     </nav>
     <a class="topbar-phone" href="tel:+79683721056">+7 968 372-10-56</a>
@@ -249,6 +248,26 @@
 
 <!-- Портфолио вынесено на отдельную страницу: portfolio/index.html (реестр + 26 материалов) -->
 
+<!-- ======= Ресурсы: где читать работы ======= -->
+<section class="res" id="resursy">
+  <div class="wrap">
+    <div class="sect-head">
+      <div>
+        <p class="eyebrow">Публикации</p>
+        <h2>Где можно прочесть работы</h2>
+      </div>
+      <p class="lead">Часть текстов живёт на сайтах компаний, для которых они написаны, — корпоративные порталы, разделы о производстве и бренд-сайты.</p>
+    </div>
+    <div class="res-row reveal">
+      <!-- Список прислал заказчик (_in/портфолио А. Чиркова/допы/ресурсы.txt) -->
+      <a href="https://krost.ru/" target="_blank" rel="noopener">Концерн «КРОСТ» <span class="res-domain">krost.ru</span></a>
+      <a href="https://fibrol.ru/manufacturing" target="_blank" rel="noopener">«Фабрика Фиброль» · производство <span class="res-domain">fibrol.ru</span></a>
+      <a href="https://fabrika-magino.ru/" target="_blank" rel="noopener">«Фабрика Мажино» <span class="res-domain">fabrika-magino.ru</span></a>
+      <a href="https://mcy-1.ru/" target="_blank" rel="noopener">ГК «МСУ-1» <span class="res-domain">mcy-1.ru</span></a>
+    </div>
+  </div>
+</section>
+
 <!-- ======= Преимущества ======= -->
 <section class="adv">
   <div class="wrap">
@@ -279,83 +298,6 @@
         <div class="adv-num">150+</div>
         <b>привлечённых экспертов</b>
         <p>Архитекторы и дизайнеры, вошедшие в работу Совета экспертов по итогам PR-продвижения премий.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ======= Цены + калькулятор ======= -->
-<section id="ceny">
-  <div class="wrap">
-    <div class="sect-head">
-      <div>
-        <p class="eyebrow">Цены</p>
-        <h2>Стоимость и калькулятор</h2>
-      </div>
-      <p class="lead">Финальная цена после краткого брифинга — она зависит от объёма, сложности и срока. Калькулятор даёт ориентировочную вилку.</p>
-    </div>
-
-    <div class="calc-grid">
-      <div class="reveal">
-        <ul class="prices-list">
-          <li>
-            <span>Пресс-релиз, пострелиз<p>Отработка инфоповода под публикацию</p></span>
-            <span class="price">от 8 000 ₽</span>
-          </li>
-          <li>
-            <span>Статья, журналистский материал<p>Репортаж, интервью, лонгрид</p></span>
-            <span class="price">от 60 ₽ / 1000 зн.</span>
-          </li>
-          <li>
-            <span>Тексты для сайта<p>Страницы, описания услуг, seo-структура</p></span>
-            <span class="price">от 70 ₽ / 1000 зн.</span>
-          </li>
-          <li>
-            <span>Литературная редактура, корректура<p>Доведение готового текста до чистоты</p></span>
-            <span class="price">от 30 ₽ / 1000 зн.</span>
-          </li>
-          <li>
-            <span>Перевод с английского<p>За страницу 1800 знаков</p></span>
-            <span class="price">от 350 ₽</span>
-          </li>
-        </ul>
-        <p class="prices-note">Ставки в списке — ориентировочные рыночные значения, которые нужно подтвердить с заказчиком перед публикацией. Срочность +50%. Минимальный заказ — по каждой позиции в калькуляторе.</p>
-      </div>
-
-      <!-- Калькулятор: ставки живут в app.js (объект RATES) -->
-      <div class="calc reveal" style="--i:1">
-        <div class="field">
-          <label for="calc-type">Тип задачи</label>
-          <select id="calc-type">
-            <option value="press">Пресс-релиз</option>
-            <option value="article">Статья / журналистский материал</option>
-            <option value="site">Тексты для сайта</option>
-            <option value="edit">Редактура / корректура</option>
-            <option value="trans">Перевод с английского</option>
-          </select>
-        </div>
-        <div class="row">
-          <div class="field">
-            <label for="calc-vol">Объём</label>
-            <input type="number" id="calc-vol" value="1" min="1" inputmode="numeric">
-          </div>
-          <div class="field">
-            <label for="calc-per">Единица</label>
-            <input type="text" id="calc-per" value="материал" disabled>
-          </div>
-        </div>
-        <div class="field">
-          <label class="calc-check">
-            <input type="checkbox" id="calc-urgent"> Срочная задача (+50%)
-          </label>
-        </div>
-        <div class="calc-total">
-          <span style="font-weight:700">Ориентировочно</span>
-          <span class="sum" id="calc-sum">—</span>
-        </div>
-        <p class="calc-note" id="calc-hint"></p>
-        <button type="button" class="btn btn--primary" id="calc-order">Передать расчёт в заявку</button>
-        <p class="calc-note">Расчёт не является офертой; точная цена — после брифинга.</p>
       </div>
     </div>
   </div>
@@ -455,12 +397,14 @@
           </select>
         </div>
         <div class="field">
-          <label for="calc-comment">Комментарий</label>
-          <textarea id="calc-comment" name="comment" placeholder="Пара строк о задаче и сроках"></textarea>
+          <label for="f-comment">Комментарий</label>
+          <textarea id="f-comment" name="comment" placeholder="Пара строк о задаче и сроках"></textarea>
         </div>
-        <button type="submit" class="btn btn--form">Отправить заявку</button>
-        <p class="form-note" style="margin-top:14px">Форма открывает почтовый клиент и готовит письмо на chirkov_an@mail.ru — для отправки нужен установленный почтовый клиент или отправка вручную. На этапе подключения бэкенда форма заработает напрямую.</p>
-        <p class="form-note" id="form-done" hidden>Черновик письма подготовлен — осталось отправить его из почтового клиента.</p>
+        <div class="form-actions">
+          <button type="button" class="btn btn--form" data-via="telegram">Отправить в Telegram</button>
+          <button type="button" class="btn btn--form" data-via="whatsapp">Отправить в WhatsApp</button>
+        </div>
+        <p class="form-note" style="margin-top:14px">Заявка уходит в указанный мессенджер: данные формы собираются в готовое сообщение — останется нажать «Отправить» в приложении.</p>
       </form>
     </div>
   </div>
